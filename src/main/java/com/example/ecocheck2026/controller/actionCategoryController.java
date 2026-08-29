@@ -10,7 +10,7 @@ import java.util.List;
 
 @RequestMapping("/api/v1/actioncategory")
 @RestController
-public class ActionCategoryController {
+public class actionCategoryController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createActionCategory(@RequestBody ActionCategoryDTO actionCategoryDTO){
         System.out.println("create action category:" + actionCategoryDTO.toString());
