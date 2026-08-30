@@ -3,9 +3,10 @@ package com.example.ecocheck2026.service.impl;
 import com.example.ecocheck2026.dto.UserDTO;
 import com.example.ecocheck2026.dto.enums.Role;
 import com.example.ecocheck2026.service.UserService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class UserServiceIMPL implements UserService {
     @Override
     public void saveUser(UserDTO user) {

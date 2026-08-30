@@ -15,7 +15,7 @@ import java.util.List;
 public class userController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void>createUser(@RequestBody UserDTO userDTO){
-        UserServiceIMPL userServiceImpl = new UserServiceIMPL();
+        var userServiceImpl = new UserServiceIMPL();
         userServiceImpl.saveUser(userDTO);
         return  new ResponseEntity<>(HttpStatus.CREATED);
 
@@ -23,7 +23,7 @@ public class userController {
     @GetMapping(value ={"/{userId}"},produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO>getSelectedUser(@PathVariable String userId){
         System.out.println("selected user:" + userId);
-        UserServiceIMPL userServiceIMPL = new UserServiceIMPL();
+        var userServiceIMPL = new UserServiceIMPL();
         return  new ResponseEntity<>(userServiceIMPL.getSelectedUser(userId),HttpStatus.OK);
 
     }
