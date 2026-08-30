@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class EcoCheck2026Application {
-
      static void main(String[] args) {
         SpringApplication.run(EcoCheck2026Application.class, args);
     }
