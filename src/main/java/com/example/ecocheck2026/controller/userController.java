@@ -35,12 +35,13 @@ public class userController {
     }
     @PatchMapping(value ={"/{userId}"},consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void>updateUser(@PathVariable String userId,@RequestBody UserDTO userDTO){
+        userService.updateUser(userId, userDTO);
         return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
     @DeleteMapping(value = {"/{userId}"})
     public ResponseEntity<Void>deleteUser(@PathVariable String userId){
-        new UserServiceIMPL().deleteUser(userId);
+        userService.deleteUser(userId);
         return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
