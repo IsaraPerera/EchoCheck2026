@@ -2,6 +2,7 @@ package com.example.ecocheck2026.controller;
 
 import com.example.ecocheck2026.dto.UserDTO;
 import com.example.ecocheck2026.dto.enums.Role;
+import com.example.ecocheck2026.service.impl.UserServiceIMPL;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,8 @@ import java.util.List;
 public class userController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void>createUser(@RequestBody UserDTO userDTO){
-        System.out.println("create user:" + userDTO.toString());
+        UserServiceIMPL userServiceImpl = new UserServiceIMPL();
+        userServiceImpl.createUser(userDTO);
         return  new ResponseEntity<>(HttpStatus.CREATED);
 
     }
