@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/useraction")
+@RequestMapping("/api/v1/useractions")
 public class userActionController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUserAction(@RequestBody UserActionDTO userActionDTO){
