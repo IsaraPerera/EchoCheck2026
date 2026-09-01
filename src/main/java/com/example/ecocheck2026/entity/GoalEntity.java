@@ -1,26 +1,34 @@
 package com.example.ecocheck2026.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import com.example.ecocheck2026.dto.enums.GoalStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Entity
-@Table(name="goals")
+@Table(name = "goals")
 @Builder
-public class GoalEntity {
+public class GoalEntity implements Serializable {
     @Id
     private String id;
     private String title;
-    private String targetReduction;
-    private String targetDate;
+    private double targetReduction;
+    private LocalDate targetDate;
+    @Enumerated(EnumType.STRING)
     private GoalStatus status;
-    private String userId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private UserEntity user;
 }

@@ -1,25 +1,34 @@
 package com.example.ecocheck2026.entity;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "climate-actions")
+@Table (name = "climate-actions")
 @Builder
-public class ClimateActionEntity {
+public class ClimateActionEntity implements Serializable {
     @Id
     private String climateActionId;
     private String title;
     private String description;
-    private String estimatedCO2Reduction;
+    private double estimatedCO2Reduction;
     private int points;
+
+    @ManyToOne
+    @JoinColumn(name = "action-id")
+    private ActionCategoryEntity actionCategory;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "climateAction")
+    private List<UserActionEntity> userActions;
 
 }
