@@ -7,12 +7,15 @@ import com.example.ecocheck2026.entity.UserEntity;
 import com.example.ecocheck2026.service.UserService;
 import com.example.ecocheck2026.util.Conversion;
 import com.example.ecocheck2026.util.IDGenerate;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class UserServiceIMPL implements UserService {
     private final UserDAO userDAO;
     private final Conversion conversion;
@@ -28,37 +31,30 @@ public class UserServiceIMPL implements UserService {
     }
 
     @Override
-    public UserDTO getSelectedUser(String userId) {
-        return new UserDTO("U0001","Isara","Perera","isaraperera2005@gmail.com","Issa", Role.ADMIN);
+    public UserDTO getSelectedUser(String userId) throws ChangeSetPersister.NotFoundException{
+        UserEntity userEntity = userDAO.findById(userId)
+                .orElseThrow(() ->new RuntimeException("User not Found"));
+        return conversion.toUserDTO(userEntity);
 
     }
 
     @Override
     public List<UserDTO> getAllUsers() {
-         List<UserDTO> userList= List.of(
-                new UserDTO(
-                        "U0001",
-                        "Isara",
-                        "Perera",
-                        "isaraperera2005@gmail.com",
-                        "Issa",
-                        Role.ADMIN
-                ),
-                new UserDTO(
-                        "U0002",
-                        "Tusheni",
-                        "Perera",
-                        "tushi@gmail.com",
-                        "tush",
-                        Role.ADMIN
-                ));
-         return userList;
+         List<UserEntity>allUsers = userDAO.findAll();
+         return conversion.toUserDTOList(allUsers);
+
     }
 
     @Override
     public void updateUser(String userId,UserDTO user) {
-        System.out.println("To be updated the userid through service layer: " +userId+ "as:" + user.toString());
-
+        UserEntity foundUser = userDAO.findById(userId)
+                .orElseThrow(() ->new RuntimeException("User not Found"));
+        foundUser.setEmail(user.getEmail());
+        foundUser.setRole(user.getRole());
+        foundUser.setFirstName(user.getFirstName());
+        foundUser.setLastName(user.getLastName());
+        foundUser.setPassword(user.getPassword());
+        foundUser.setEmail(user.getEmail());
     }
 
     @Override
