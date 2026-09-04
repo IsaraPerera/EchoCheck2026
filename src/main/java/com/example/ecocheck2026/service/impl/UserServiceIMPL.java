@@ -1,8 +1,11 @@
 package com.example.ecocheck2026.service.impl;
 
+import com.example.ecocheck2026.dao.UserDAO;
 import com.example.ecocheck2026.dto.UserDTO;
 import com.example.ecocheck2026.dto.enums.Role;
+import com.example.ecocheck2026.entity.UserEntity;
 import com.example.ecocheck2026.service.UserService;
+import com.example.ecocheck2026.util.Conversion;
 import com.example.ecocheck2026.util.IDGenerate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,11 +14,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class UserServiceIMPL implements UserService {
+    private final UserDAO userDAO;
+    private final Conversion conversion;
     @Override
     public void saveUser(UserDTO user) {
         //generating id
         user.setUserId(IDGenerate.userId());
         //save data
+        UserEntity userEntity = conversion.toUserEntity(user);
+        userDAO.save(userEntity);
 
 
     }
