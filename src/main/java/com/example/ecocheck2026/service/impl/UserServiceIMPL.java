@@ -40,8 +40,7 @@ public class UserServiceIMPL implements UserService {
 
     @Override
     public List<UserDTO> getAllUsers() {
-         List<UserEntity>allUsers = userDAO.findAll();
-         return conversion.toUserDTOList(allUsers);
+         return conversion.toUserDTOList(userDAO.findAll());
 
     }
 
@@ -59,8 +58,9 @@ public class UserServiceIMPL implements UserService {
 
     @Override
     public void deleteUser(String userId) {
-        System.out.println("Deleted user through service layer user id : " +userId);
-
+        UserEntity foundUser = userDAO.findById(userId)
+                .orElseThrow(()->new RuntimeException("user not found"));
+        userDAO.delete(foundUser);
     }
 
 

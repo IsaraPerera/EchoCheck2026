@@ -4,6 +4,7 @@ import com.example.ecocheck2026.dto.UserDTO;
 import com.example.ecocheck2026.service.UserService;
 import com.example.ecocheck2026.service.impl.UserServiceIMPL;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +24,11 @@ public class userController {
         return  new ResponseEntity<>(HttpStatus.CREATED);
 
     }
-    @GetMapping(value ={"/{userId}"},produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO>getSelectedUser(@PathVariable String userId){
-        System.out.println("selected user:" + userId);
-        return  new ResponseEntity<>(userService.getSelectedUser(userId),HttpStatus.OK);
-
+    @GetMapping(value= "{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> getSelectedUser(@PathVariable String userId) throws ChangeSetPersister.NotFoundException {
+        return new  ResponseEntity<>(userService.getSelectedUser(userId), HttpStatus.OK);
     }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>>getAllUsers(){
         return  new ResponseEntity<>(userService.getAllUsers(),HttpStatus.OK);
