@@ -4,6 +4,7 @@ import com.example.ecocheck2026.dao.UserDAO;
 import com.example.ecocheck2026.dto.UserDTO;
 import com.example.ecocheck2026.dto.enums.Role;
 import com.example.ecocheck2026.entity.UserEntity;
+import com.example.ecocheck2026.exceptions.DataNotFoundException;
 import com.example.ecocheck2026.service.UserService;
 import com.example.ecocheck2026.util.Conversion;
 import com.example.ecocheck2026.util.IDGenerate;
@@ -25,15 +26,13 @@ public class UserServiceIMPL implements UserService {
         user.setUserId(IDGenerate.userId());
         //save data
         UserEntity userEntity = conversion.toUserEntity(user);
-        userDAO.save(userEntity);
-
-
+        userDAO.save(conversion.toUserEntity(user));
     }
 
     @Override
     public UserDTO getSelectedUser(String userId) throws ChangeSetPersister.NotFoundException{
         UserEntity userEntity = userDAO.findById(userId)
-                .orElseThrow(() ->new RuntimeException("User not Found"));
+                .orElseThrow(() ->new DataNotFoundException("User not Found"));
         return conversion.toUserDTO(userEntity);
 
     }
@@ -47,7 +46,7 @@ public class UserServiceIMPL implements UserService {
     @Override
     public void updateUser(String userId,UserDTO user) {
         UserEntity foundUser = userDAO.findById(userId)
-                .orElseThrow(() ->new RuntimeException("User not Found"));
+                .orElseThrow(() ->new DataNotFoundException("User not Found"));
         foundUser.setEmail(user.getEmail());
         foundUser.setRole(user.getRole());
         foundUser.setFirstName(user.getFirstName());
@@ -59,7 +58,7 @@ public class UserServiceIMPL implements UserService {
     @Override
     public void deleteUser(String userId) {
         UserEntity foundUser = userDAO.findById(userId)
-                .orElseThrow(()->new RuntimeException("user not found"));
+                .orElseThrow(()->new DataNotFoundException("user not found"));
         userDAO.delete(foundUser);
     }
 
