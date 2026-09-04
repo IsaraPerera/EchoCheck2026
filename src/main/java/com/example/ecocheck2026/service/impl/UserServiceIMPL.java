@@ -3,14 +3,20 @@ package com.example.ecocheck2026.service.impl;
 import com.example.ecocheck2026.dto.UserDTO;
 import com.example.ecocheck2026.dto.enums.Role;
 import com.example.ecocheck2026.service.UserService;
+import com.example.ecocheck2026.util.IDGenerate;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+@RequiredArgsConstructor
 @Service
 public class UserServiceIMPL implements UserService {
     @Override
     public void saveUser(UserDTO user) {
-        System.out.println("UserServiceIMPL saveUser is"+user);
+        //generating id
+        user.setUserId(IDGenerate.userId());
+        //save data
+
 
     }
 
