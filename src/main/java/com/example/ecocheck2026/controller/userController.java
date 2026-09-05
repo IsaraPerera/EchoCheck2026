@@ -4,6 +4,8 @@ import com.example.ecocheck2026.dto.UserDTO;
 import com.example.ecocheck2026.service.UserService;
 import com.example.ecocheck2026.service.impl.UserServiceIMPL;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,13 +15,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+
 @RequestMapping("/api/v1/users")
 @RestController
 @RequiredArgsConstructor
 public class userController {
     private final UserService userService;
+    private static final Logger logger = LoggerFactory.getLogger(userController.class);
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void>createUser(@RequestBody UserDTO userDTO){
+        logger.info("Create User Detail Is {}",userDTO);
         userService.saveUser(userDTO);
         return  new ResponseEntity<>(HttpStatus.CREATED);
 
