@@ -11,7 +11,7 @@ public class ClimateActionDTO {
     private String climateActionId;
     private String title;
     private String description;
-    private String estimatedCO2Reduction;
+    private double estimatedCO2Reduction;
     private int points;
 
 }
