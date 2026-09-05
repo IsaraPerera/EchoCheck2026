@@ -1,6 +1,8 @@
 package com.example.ecocheck2026.util;
 
+import com.example.ecocheck2026.dto.UserActionDTO;
 import com.example.ecocheck2026.dto.UserDTO;
+import com.example.ecocheck2026.entity.UserActionEntity;
 import com.example.ecocheck2026.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,5 +26,15 @@ public class Conversion {
 
     public List<UserDTO> toUserDTOList(List<UserEntity> userEntityList) {
         return mapper.map(userEntityList, new TypeToken<List<UserDTO>>(){}.getType());
+    }
+
+    public UserActionDTO toUserActionDTO(UserActionEntity userActionEntity){
+        return mapper.map(userActionEntity, UserActionDTO.class);
+    }
+
+    public UserActionEntity toUserActionEntity(UserActionDTO userActionDTO){  return mapper.map(userActionDTO, UserActionEntity.class); }
+
+    public List<UserActionDTO> toUserActionDTOList(List<UserActionEntity> userActionEntityList) {
+        return mapper.map(userActionEntityList, new TypeToken<List<UserActionDTO>>(){}.getType());
     }
 }

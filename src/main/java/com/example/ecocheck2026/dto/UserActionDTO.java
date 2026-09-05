@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserActionDTO {
     private String userActionId;
-    private String quantity;
-    private String totalReduction;
+    private int Quantity;
+    private double totalReduction;
     private String completedDate;
     private String userId;
-    private String actionId;
+    private String ClimateActionId;
 }
