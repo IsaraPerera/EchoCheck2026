@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class GoalDTO {
-    private String id;
+    private String GoalId;
     private String title;
     private String targetReduction;
     private String targetDate;

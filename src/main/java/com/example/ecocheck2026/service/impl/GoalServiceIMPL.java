@@ -1,46 +1,46 @@
 package com.example.ecocheck2026.service.impl;
 
+import com.example.ecocheck2026.dao.GoalDAO;
 import com.example.ecocheck2026.dto.GoalDTO;
 import com.example.ecocheck2026.dto.enums.GoalStatus;
+import com.example.ecocheck2026.entity.GoalEntity;
+import com.example.ecocheck2026.entity.UserActionEntity;
+import com.example.ecocheck2026.entity.UserEntity;
+import com.example.ecocheck2026.exceptions.DataNotFoundException;
 import com.example.ecocheck2026.service.GoalService;
+import com.example.ecocheck2026.util.Conversion;
+import com.example.ecocheck2026.util.IDGenerate;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@RequiredArgsConstructor
+@Transactional
 @Service
 public class GoalServiceIMPL implements GoalService {
+    private final Conversion conversion;
+    private final GoalDAO goalDAO;
     @Override
     public void saveGoal(GoalDTO goal) {
-        System.out.println("create goal:" + goal.toString());
+        //generating id
+        goal.setGoalId(IDGenerate.goalId());
+        //save data
+        GoalEntity goalEntity = conversion.toGoalEntity(goal);
+        goalDAO.save(conversion.toGoalEntity(goal));
 
     }
 
     @Override
     public GoalDTO getSelectedGoal(String goalId) {
-        System.out.println("selected goal:" + goalId);
-        return new GoalDTO("GOAL-501","Reduce monthly carbon footprint","50.0 kgCO2e","2026-12-31", GoalStatus.ACTIVE, "U0001");
+        GoalEntity goalEntity = goalDAO.findById(goalId)
+                .orElseThrow(() ->new DataNotFoundException("Goal not Found"));
+        return conversion.toGoalDTO(goalEntity);
     }
 
     @Override
     public List<GoalDTO> getAllGoals() {
-        List<GoalDTO> goalList= List.of(
-                new GoalDTO(
-                        "GOAL-501",
-                        "Reduce monthly carbon footprint",
-                        "50.0 kgCO2e",
-                        "2026-12-31",
-                        GoalStatus.ACTIVE,
-                        "U0001"
-                ),
-                new GoalDTO(
-                        "GOAL-502",
-                        "Zero Waste Month",
-                        "25.5 kgCO2e",
-                        "2026-09-30",
-                        GoalStatus.COMPLETED,
-                        "U0002"
-                ));
-        return goalList;
+        return conversion.toGoalDTOList(goalDAO.findAll());
     }
 
     @Override
@@ -50,6 +50,8 @@ public class GoalServiceIMPL implements GoalService {
 
     @Override
     public void deleteGoal(String goalId) {
-        System.out.println("Deleted goal id : " +goalId);
+        GoalEntity foundGoal = goalDAO.findById(goalId)
+                .orElseThrow(()->new DataNotFoundException("user not found"));
+        goalDAO.delete(foundGoal);
     }
 }
